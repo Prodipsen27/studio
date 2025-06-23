@@ -3,7 +3,6 @@
 import { useState, useMemo } from 'react';
 import type { Artist, ArtistCategory } from '@/lib/types';
 import ArtistCard from './ArtistCard';
-import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Slider } from '@/components/ui/slider';
 import { Card } from '@/components/ui/card';
@@ -16,17 +15,15 @@ const categories: ArtistCategory[] = ["musician", "painter", "photographer", "da
 
 export default function ArtistList({ allArtists }: ArtistListProps) {
   const [categoryFilter, setCategoryFilter] = useState<string>('all');
-  const [cityFilter, setCityFilter] = useState('');
   const [maxFee, setMaxFee] = useState(10000);
 
   const filteredArtists = useMemo(() => {
     return allArtists.filter(artist => {
       const categoryMatch = categoryFilter === 'all' || artist.category === categoryFilter;
-      const cityMatch = artist.city.toLowerCase().includes(cityFilter.toLowerCase());
       const feeMatch = artist.hourlyFee <= maxFee;
-      return categoryMatch && cityMatch && feeMatch;
+      return categoryMatch && feeMatch;
     });
-  }, [allArtists, categoryFilter, cityFilter, maxFee]);
+  }, [allArtists, categoryFilter, maxFee]);
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
@@ -47,15 +44,6 @@ export default function ArtistList({ allArtists }: ArtistListProps) {
                   ))}
                 </SelectContent>
               </Select>
-            </div>
-            <div>
-              <label htmlFor="city" className="block text-sm font-medium text-muted-foreground mb-2">City</label>
-              <Input
-                id="city"
-                placeholder="e.g. Mumbai"
-                value={cityFilter}
-                onChange={e => setCityFilter(e.target.value)}
-              />
             </div>
             <div>
               <label htmlFor="price" className="block text-sm font-medium text-muted-foreground mb-2">
