@@ -55,32 +55,40 @@ export function SubmissionsTable({ submissions }: SubmissionsTableProps) {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {submissions.map((submission) => (
-            <TableRow key={submission.id}>
-              <TableCell className="font-medium">{submission.name}</TableCell>
-              <TableCell className="capitalize">{submission.category}</TableCell>
-              <TableCell>{submission.city}</TableCell>
-              <TableCell className="text-right">₹{submission.hourlyFee}</TableCell>
-              <TableCell className="text-center">{getStatusBadge(submission.status)}</TableCell>
-              <TableCell className="text-right">
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" className="h-8 w-8 p-0">
-                      <span className="sr-only">Open menu</span>
-                      <MoreHorizontal className="h-4 w-4" />
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end">
-                    <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                    <DropdownMenuItem>View Application</DropdownMenuItem>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem className="text-green-600 focus:text-green-600">Approve</DropdownMenuItem>
-                    <DropdownMenuItem className="text-red-600 focus:text-red-600">Reject</DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
+          {submissions.length > 0 ? (
+            submissions.map((submission) => (
+              <TableRow key={submission.id}>
+                <TableCell className="font-medium">{submission.name}</TableCell>
+                <TableCell className="capitalize">{submission.category}</TableCell>
+                <TableCell>{submission.city}</TableCell>
+                <TableCell className="text-right">₹{submission.hourlyFee}</TableCell>
+                <TableCell className="text-center">{getStatusBadge(submission.status)}</TableCell>
+                <TableCell className="text-right">
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button variant="ghost" className="h-8 w-8 p-0">
+                        <span className="sr-only">Open menu</span>
+                        <MoreHorizontal className="h-4 w-4" />
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end">
+                      <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                      <DropdownMenuItem>View Application</DropdownMenuItem>
+                      <DropdownMenuSeparator />
+                      <DropdownMenuItem className="text-green-600 focus:text-green-600">Approve</DropdownMenuItem>
+                      <DropdownMenuItem className="text-red-600 focus:text-red-600">Reject</DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </TableCell>
+              </TableRow>
+            ))
+          ) : (
+            <TableRow>
+              <TableCell colSpan={6} className="h-24 text-center">
+                No new submissions.
               </TableCell>
             </TableRow>
-          ))}
+          )}
         </TableBody>
       </Table>
     </Card>
