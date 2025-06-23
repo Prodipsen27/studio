@@ -60,7 +60,7 @@ export function SubmissionsTable({ submissions }: SubmissionsTableProps) {
               <TableCell className="font-medium">{submission.name}</TableCell>
               <TableCell className="capitalize">{submission.category}</TableCell>
               <TableCell>{submission.city}</TableCell>
-              <TableCell className="text-right">${submission.hourlyFee}</TableCell>
+              <TableCell className="text-right">₹{submission.hourlyFee}</TableCell>
               <TableCell className="text-center">{getStatusBadge(submission.status)}</TableCell>
               <TableCell className="text-right">
                 <DropdownMenu>

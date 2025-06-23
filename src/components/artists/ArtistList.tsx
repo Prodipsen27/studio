@@ -17,7 +17,7 @@ const categories: ArtistCategory[] = ["musician", "painter", "photographer", "da
 export default function ArtistList({ allArtists }: ArtistListProps) {
   const [categoryFilter, setCategoryFilter] = useState<string>('all');
   const [cityFilter, setCityFilter] = useState('');
-  const [maxFee, setMaxFee] = useState(500);
+  const [maxFee, setMaxFee] = useState(10000);
 
   const filteredArtists = useMemo(() => {
     return allArtists.filter(artist => {
@@ -52,20 +52,20 @@ export default function ArtistList({ allArtists }: ArtistListProps) {
               <label htmlFor="city" className="block text-sm font-medium text-muted-foreground mb-2">City</label>
               <Input
                 id="city"
-                placeholder="e.g. New York"
+                placeholder="e.g. Mumbai"
                 value={cityFilter}
                 onChange={e => setCityFilter(e.target.value)}
               />
             </div>
             <div>
               <label htmlFor="price" className="block text-sm font-medium text-muted-foreground mb-2">
-                Max Hourly Fee: ${maxFee}
+                Max Hourly Fee: ₹{maxFee}
               </label>
               <Slider
                 id="price"
                 min={0}
-                max={500}
-                step={10}
+                max={10000}
+                step={500}
                 value={[maxFee]}
                 onValueChange={(value) => setMaxFee(value[0])}
               />

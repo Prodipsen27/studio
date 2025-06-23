@@ -76,7 +76,7 @@ export default function OnboardingForm() {
                     <FormItem>
                     <FormLabel>Full Name</FormLabel>
                     <FormControl>
-                        <Input placeholder="e.g. Jane Doe" {...field} />
+                        <Input placeholder="e.g. Priya Sharma" {...field} />
                     </FormControl>
                     <FormMessage />
                     </FormItem>
@@ -89,7 +89,7 @@ export default function OnboardingForm() {
                     <FormItem>
                     <FormLabel>Artist / Stage Name</FormLabel>
                     <FormControl>
-                        <Input placeholder="e.g. Art by Jane" {...field} />
+                        <Input placeholder="e.g. Art by Priya" {...field} />
                     </FormControl>
                     <FormMessage />
                     </FormItem>
@@ -119,7 +119,7 @@ export default function OnboardingForm() {
                         <FormItem>
                         <FormLabel>City</FormLabel>
                         <FormControl>
-                            <Input placeholder="e.g. San Francisco" {...field} />
+                            <Input placeholder="e.g. Mumbai" {...field} />
                         </FormControl>
                         <FormMessage />
                         </FormItem>
@@ -155,9 +155,9 @@ export default function OnboardingForm() {
                 name="hourlyFee"
                 render={({ field }) => (
                     <FormItem>
-                    <FormLabel>Hourly Fee ($)</FormLabel>
+                    <FormLabel>Hourly Fee (₹)</FormLabel>
                     <FormControl>
-                        <Input type="number" placeholder="e.g. 75" {...field} />
+                        <Input type="number" placeholder="e.g. 2500" {...field} />
                     </FormControl>
                     <FormMessage />
                     </FormItem>

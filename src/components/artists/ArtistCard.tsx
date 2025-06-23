@@ -3,7 +3,7 @@ import type { Artist } from '@/lib/types';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { User, DollarSign } from 'lucide-react';
+import { IndianRupee } from 'lucide-react';
 
 interface ArtistCardProps {
   artist: Artist;
@@ -40,7 +40,7 @@ export default function ArtistCard({ artist }: ArtistCardProps) {
       </CardContent>
       <CardFooter className="flex justify-between items-center bg-muted/50 p-4">
         <div className="flex items-center gap-2 font-semibold">
-           <DollarSign className="h-5 w-5 text-primary" />
+           <IndianRupee className="h-5 w-5 text-primary" />
            <span>{artist.hourlyFee} / hour</span>
         </div>
         <Button variant="outline">View Profile</Button>
