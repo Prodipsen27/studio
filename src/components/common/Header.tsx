@@ -6,6 +6,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Menu, Brush } from "lucide-react";
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
+import { ThemeToggle } from "@/components/common/ThemeToggle";
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -44,8 +45,10 @@ export default function Header() {
              <Button asChild>
                 <Link href="/join">Get Started</Link>
               </Button>
+              <ThemeToggle />
           </nav>
-          <div className="md:hidden">
+          <div className="flex items-center gap-2 md:hidden">
+            <ThemeToggle />
             <Sheet>
               <SheetTrigger asChild>
                 <Button variant="outline" size="icon">
