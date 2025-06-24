@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { Toaster } from "@/components/ui/toaster";
 import Header from "@/components/common/Header";
 import Footer from "@/components/common/Footer";
 import { ThemeProvider } from "@/components/common/ThemeProvider";
@@ -36,7 +35,6 @@ export default function RootLayout({
             </main>
             <Footer />
           </div>
-          <Toaster />
         </ThemeProvider>
       </body>
     </html>

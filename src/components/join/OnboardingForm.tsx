@@ -1,211 +1,109 @@
 "use client";
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import * as z from "zod";
-
-import { Button } from "@/components/ui/button";
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Textarea } from "@/components/ui/textarea";
-import { useToast } from "@/hooks/use-toast";
-import { Card, CardContent } from "@/components/ui/card";
-
-const formSchema = z.object({
-  fullName: z.string().min(2, "Full name must be at least 2 characters."),
-  artistName: z.string().min(2, "Artist name must be at least 2 characters."),
-  email: z.string().email("Please enter a valid email."),
-  city: z.string().min(2, "City is required."),
-  category: z.enum(["musician", "painter", "photographer", "dancer"], {
-    required_error: "You need to select a category.",
-  }),
-  hourlyFee: z.coerce.number().min(0, "Fee must be a positive number."),
-  portfolioUrl: z.string().url("Please enter a valid URL."),
-  bio: z.string().min(10, "Bio must be at least 10 characters.").max(500, "Bio must be less than 500 characters."),
-});
+import React, { useState } from 'react';
 
 export default function OnboardingForm() {
-  const { toast } = useToast();
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
+  const [formData, setFormData] = useState({
+    fullName: "",
+    artistName: "",
+    email: "",
+    city: "",
+    category: "musician",
+    hourlyFee: "",
+    portfolioUrl: "",
+    bio: "",
+  });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  function onSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    console.log(formData);
+    alert("Submission successful! We've received your application and will review it shortly.");
+    setFormData({
       fullName: "",
       artistName: "",
       email: "",
       city: "",
-      hourlyFee: 0,
+      category: "musician",
+      hourlyFee: "",
       portfolioUrl: "",
       bio: "",
-    },
-  });
-
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
-    toast({
-      title: "Submission successful!",
-      description: "We've received your application and will review it shortly.",
     });
-    form.reset();
   }
 
+  const commonInputStyles = "flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-base ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 md:text-sm";
+  const labelStyles = "text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70";
+
   return (
-    <Card>
-      <CardContent className="p-8">
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-            <div className="grid md:grid-cols-2 gap-8">
-                <FormField
-                control={form.control}
-                name="fullName"
-                render={({ field }) => (
-                    <FormItem>
-                    <FormLabel>Full Name</FormLabel>
-                    <FormControl>
-                        <Input placeholder="e.g. Priya Sharma" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                    </FormItem>
-                )}
-                />
-                <FormField
-                control={form.control}
-                name="artistName"
-                render={({ field }) => (
-                    <FormItem>
-                    <FormLabel>Artist / Stage Name</FormLabel>
-                    <FormControl>
-                        <Input placeholder="e.g. Art by Priya" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                    </FormItem>
-                )}
-                />
+    <div className="rounded-lg border bg-card text-card-foreground shadow-sm">
+      <div className="p-8">
+        <form onSubmit={onSubmit} className="space-y-8">
+          <div className="grid md:grid-cols-2 gap-8">
+            <div className="space-y-2">
+              <label htmlFor="fullName" className={labelStyles}>Full Name</label>
+              <input id="fullName" name="fullName" value={formData.fullName} onChange={handleChange} placeholder="e.g. Priya Sharma" className={commonInputStyles} required />
             </div>
-
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Email Address</FormLabel>
-                  <FormControl>
-                    <Input type="email" placeholder="you@example.com" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <div className="grid md:grid-cols-2 gap-8">
-                 <FormField
-                    control={form.control}
-                    name="city"
-                    render={({ field }) => (
-                        <FormItem>
-                        <FormLabel>City</FormLabel>
-                        <FormControl>
-                            <Input placeholder="e.g. Mumbai" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                        </FormItem>
-                    )}
-                />
-                <FormField
-                    control={form.control}
-                    name="category"
-                    render={({ field }) => (
-                        <FormItem>
-                        <FormLabel>Primary Category</FormLabel>
-                        <Select onValueChange={field.onChange} defaultValue={field.value}>
-                            <FormControl>
-                            <SelectTrigger>
-                                <SelectValue placeholder="Select your main discipline" />
-                            </SelectTrigger>
-                            </FormControl>
-                            <SelectContent>
-                            <SelectItem value="musician">Musician</SelectItem>
-                            <SelectItem value="painter">Painter</SelectItem>
-                            <SelectItem value="photographer">Photographer</SelectItem>
-                            <SelectItem value="dancer">Dancer</SelectItem>
-                            </SelectContent>
-                        </Select>
-                        <FormMessage />
-                        </FormItem>
-                    )}
-                />
+            <div className="space-y-2">
+              <label htmlFor="artistName" className={labelStyles}>Artist / Stage Name</label>
+              <input id="artistName" name="artistName" value={formData.artistName} onChange={handleChange} placeholder="e.g. Art by Priya" className={commonInputStyles} required />
             </div>
-            
-             <FormField
-                control={form.control}
-                name="hourlyFee"
-                render={({ field }) => (
-                    <FormItem>
-                    <FormLabel>Hourly Fee (₹)</FormLabel>
-                    <FormControl>
-                        <Input type="number" placeholder="e.g. 2500" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                    </FormItem>
-                )}
-            />
+          </div>
 
-            <FormField
-              control={form.control}
-              name="portfolioUrl"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Portfolio URL</FormLabel>
-                  <FormControl>
-                    <Input placeholder="https://your-portfolio.com" {...field} />
-                  </FormControl>
-                  <FormDescription>
-                    A link to your personal website, Behance, Dribbble, etc.
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+          <div className="space-y-2">
+            <label htmlFor="email" className={labelStyles}>Email Address</label>
+            <input id="email" name="email" type="email" value={formData.email} onChange={handleChange} placeholder="you@example.com" className={commonInputStyles} required />
+          </div>
 
-            <FormField
-              control={form.control}
+          <div className="grid md:grid-cols-2 gap-8">
+            <div className="space-y-2">
+              <label htmlFor="city" className={labelStyles}>City</label>
+              <input id="city" name="city" value={formData.city} onChange={handleChange} placeholder="e.g. Mumbai" className={commonInputStyles} required />
+            </div>
+            <div className="space-y-2">
+              <label htmlFor="category" className={labelStyles}>Primary Category</label>
+              <select id="category" name="category" value={formData.category} onChange={handleChange} className={commonInputStyles}>
+                <option value="musician">Musician</option>
+                <option value="painter">Painter</option>
+                <option value="photographer">Photographer</option>
+                <option value="dancer">Dancer</option>
+              </select>
+            </div>
+          </div>
+          
+          <div className="space-y-2">
+            <label htmlFor="hourlyFee" className={labelStyles}>Hourly Fee (₹)</label>
+            <input id="hourlyFee" name="hourlyFee" type="number" value={formData.hourlyFee} onChange={handleChange} placeholder="e.g. 2500" className={commonInputStyles} required />
+          </div>
+
+          <div className="space-y-2">
+            <label htmlFor="portfolioUrl" className={labelStyles}>Portfolio URL</label>
+            <input id="portfolioUrl" name="portfolioUrl" type="url" value={formData.portfolioUrl} onChange={handleChange} placeholder="https://your-portfolio.com" className={commonInputStyles} required />
+            <p className="text-sm text-muted-foreground">A link to your personal website, Behance, Dribbble, etc.</p>
+          </div>
+
+          <div className="space-y-2">
+            <label htmlFor="bio" className={labelStyles}>Short Bio</label>
+            <textarea
+              id="bio"
               name="bio"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Short Bio</FormLabel>
-                  <FormControl>
-                    <Textarea
-                      placeholder="Tell us a little bit about yourself and your art."
-                      className="resize-y min-h-[120px]"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormDescription>
-                    This will appear on your public profile.
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
+              value={formData.bio}
+              onChange={handleChange}
+              placeholder="Tell us a little bit about yourself and your art."
+              className={`${commonInputStyles} resize-y min-h-[120px]`}
+              required
             />
-            
-            <Button type="submit" size="lg" className="w-full">Submit Application</Button>
-          </form>
-        </Form>
-      </CardContent>
-    </Card>
+            <p className="text-sm text-muted-foreground">This will appear on your public profile.</p>
+          </div>
+          
+          <button type="submit" className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-11 rounded-md px-8 w-full">
+            Submit Application
+          </button>
+        </form>
+      </div>
+    </div>
   );
 }
