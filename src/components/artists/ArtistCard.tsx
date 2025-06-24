@@ -10,16 +10,6 @@ interface ArtistCardProps {
 }
 
 export default function ArtistCard({ artist }: ArtistCardProps) {
-  const getCategoryHint = (category: string) => {
-    switch (category) {
-      case 'musician': return 'musician portrait';
-      case 'painter': return 'painter studio';
-      case 'photographer': return 'photographer action';
-      case 'dancer': return 'dancer posing';
-      default: return 'artist portrait';
-    }
-  };
-
   return (
     <Card className="flex flex-col overflow-hidden hover:shadow-lg transition-shadow duration-300">
       <CardHeader className="p-0">
@@ -29,7 +19,7 @@ export default function ArtistCard({ artist }: ArtistCardProps) {
             alt={`Portrait of ${artist.name}`}
             layout="fill"
             objectFit="cover"
-            data-ai-hint={getCategoryHint(artist.category)}
+            data-ai-hint={artist.dataAiHint}
           />
         </div>
       </CardHeader>

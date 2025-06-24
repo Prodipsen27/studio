@@ -8,6 +8,7 @@ export interface Artist {
   hourlyFee: number;
   imageUrl: string;
   bio: string;
+  dataAiHint: string;
 }
 
 export interface Submission {
